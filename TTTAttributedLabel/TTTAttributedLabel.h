@@ -607,6 +607,15 @@ didLongPressLinkWithTransitInformation:(NSDictionary *)components
 didLongPressLinkWithTextCheckingResult:(NSTextCheckingResult *)result
                 atPoint:(CGPoint)point;
 
+/**
+ Allows the delegate to specify that certain links are to be ignored.
+ 
+ @param label The label whose link is about to be added.
+ @param labelLink The specific link about to be added.
+ */
+- (BOOL)attributedLabel:(TTTAttributedLabel *)label
+     shouldAddLabelLink:(TTTAttributedLabelLink *)labelLink;
+
 @end
 
 @interface TTTAttributedLabelLink : NSObject <NSCoding>

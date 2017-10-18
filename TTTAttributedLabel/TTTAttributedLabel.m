@@ -513,17 +513,23 @@ static inline CGSize CTFramesetterSuggestFrameSizeForAttributedStringWithConstra
     for (NSTextCheckingResult *result in results) {
         NSDictionary *activeAttributes = attributes ? self.activeLinkAttributes : nil;
         NSDictionary *inactiveAttributes = attributes ? self.inactiveLinkAttributes : nil;
-        
         TTTAttributedLabelLink *link = [[TTTAttributedLabelLink alloc] initWithAttributes:attributes
                                                                          activeAttributes:activeAttributes
                                                                        inactiveAttributes:inactiveAttributes
                                                                        textCheckingResult:result];
+
+        BOOL shouldAddLabelLink = YES;
+        if ([self.delegate respondsToSelector:@selector(attributedLabel:shouldAddLabelLink:)]) {
+            shouldAddLabelLink = [self.delegate attributedLabel:self shouldAddLabelLink:link];
+        }
         
-        [links addObject:link];
+        if (shouldAddLabelLink) {
+            [links addObject:link];
+        }
     }
-    
+
     [self addLinks:links];
-    
+
     return links;
 }
 
